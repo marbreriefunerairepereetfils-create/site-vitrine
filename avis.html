@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Avis Clients — MDM Marbrerie Funéraire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--or:#c9a84c;--or-light:#e8c96a;--anthracite:#2c2c2c;--anthracite-dark:#1a1a1a;--gris:#f2f2f0;--texte:#1e1e1e;--texte-doux:#5a5a5a;--blanc:#ffffff;--border:#d4d0c8}
+html{scroll-behavior:smooth}
+body{font-family:'Raleway',sans-serif;font-weight:400;background:var(--gris);color:var(--texte);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--anthracite-dark);border-bottom:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px}
+.logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--blanc);text-decoration:none;letter-spacing:2px}
+.logo span{color:var(--or)}
+.nav-tel{color:var(--or);text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:1px;border:1px solid rgba(201,168,76,0.4);padding:0.4rem 1rem}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.burger span{display:block;width:22px;height:2px;background:var(--blanc)}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--anthracite-dark);z-index:999;padding:1.5rem 2rem;flex-direction:column;gap:1.2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.hero-sub{background:var(--anthracite-dark);padding:5rem 2rem 3rem;text-align:center;color:var(--blanc);margin-top:64px}
+.hero-sub p{font-size:0.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--or);margin-bottom:1rem}
+.hero-sub h1{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:400;font-style:italic}
+.container{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+
+/* SECTION PUBLIQUE — AVIS */
+.section-eyebrow{font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.section-eyebrow::after{content:'';flex:1;max-width:40px;height:1px;background:var(--or)}
+.section-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;margin-bottom:2rem}
+.section-title em{font-style:italic;color:var(--or)}
+.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:1rem}
+.avis-card{background:var(--blanc);border:1px solid var(--border);overflow:hidden}
+.avis-img{width:100%;height:200px;object-fit:cover;background:#eee;display:block}
+.avis-img-placeholder{width:100%;height:200px;background:var(--anthracite);display:flex;align-items:center;justify-content:center}
+.avis-img-placeholder svg{stroke:rgba(201,168,76,0.4);fill:none;stroke-width:1}
+.avis-body{padding:1.2rem}
+.avis-stars{display:flex;gap:3px;margin-bottom:0.8rem}
+.star{font-size:1rem;color:#ddd}
+.star.filled{color:var(--or)}
+.avis-texte{font-size:0.85rem;color:var(--texte-doux);line-height:1.8;font-weight:300;font-style:italic;margin-bottom:0.8rem}
+.avis-auteur{font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--texte);font-weight:600}
+.avis-date{font-size:0.65rem;color:var(--texte-doux);margin-top:0.2rem}
+.no-avis{text-align:center;color:var(--texte-doux);padding:3rem;font-style:italic;font-size:0.9rem}
+
+/* FORMULAIRE AVIS — ACCÈS PROTÉGÉ */
+.acces-section{background:var(--blanc);border:1px solid var(--border);padding:2rem;margin-top:3rem;max-width:500px;margin-left:auto;margin-right:auto}
+.acces-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;margin-bottom:0.5rem}
+.acces-desc{font-size:0.8rem;color:var(--texte-doux);margin-bottom:1.5rem;font-weight:300}
+.field{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:1rem}
+.field label{font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--texte-doux);font-weight:500}
+.field input,.field select,.field textarea{width:100%;padding:0.8rem 1rem;border:1px solid var(--border);background:var(--gris);font-family:'Raleway',sans-serif;font-size:0.88rem;color:var(--texte);outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--or)}
+.field textarea{resize:vertical;min-height:80px}
+.stars-input{display:flex;gap:8px;margin-top:0.3rem}
+.stars-input span{font-size:1.5rem;cursor:pointer;color:#ddd;transition:color .15s}
+.stars-input span.active{color:var(--or)}
+.btn-gold{display:inline-block;padding:0.9rem 2.5rem;background:var(--or);color:var(--anthracite-dark);font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .25s;width:100%}
+.btn-gold:hover{background:var(--or-light)}
+.btn-gold:disabled{background:#ccc;cursor:not-allowed}
+.error-msg{color:#c0392b;font-size:0.8rem;margin-top:0.5rem;display:none}
+.success-msg{display:none;background:#f0f5f0;border:1px solid #bdd4bd;color:#3a5a3a;padding:1rem;font-size:0.85rem;margin-top:1rem;text-align:center}
+.form-avis{display:none}
+.code-section{display:block}
+footer{background:var(--anthracite-dark);color:rgba(255,255,255,0.4);padding:2.5rem 2rem;text-align:center;font-size:0.72rem;letter-spacing:1px;line-height:2;margin-top:4rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--blanc);letter-spacing:3px;display:block;margin-bottom:0.5rem}
+.footer-logo span{color:var(--or)}
+footer a{color:var(--or-light);text-decoration:none}
+@media(max-width:768px){
+  nav .nav-tel{display:none}
+  .burger{display:flex}
+  .avis-grid{grid-template-columns:1fr}
+  .container{padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">MDM <span>Marbrerie</span></a>
+  <a href="tel:0764848544" class="nav-tel">07 64 84 85 44</a>
+  <div class="burger" onclick="document.getElementById('mob').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mob">
+  <a href="index.html">Accueil</a>
+  <a href="monuments.html">Monuments</a>
+  <a href="semelles.html">Semelles</a>
+  <a href="tel:0764848544">07 64 84 85 44</a>
+</div>
+
+<div class="hero-sub">
+  <p>MDM Marbrerie Funéraire Père et Fils</p>
+  <h1>Avis de nos clients</h1>
+</div>
+
+<div class="container">
+
+  <!-- AVIS PUBLICS -->
+  <p class="section-eyebrow">Témoignages</p>
+  <h2 class="section-title">Ce que disent <em>nos clients</em></h2>
+  <div class="avis-grid" id="avisGrid">
+    <div class="no-avis" id="noAvis">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>
+  </div>
+
+  <!-- FORMULAIRE ACCÈS CLIENT -->
+  <div class="acces-section">
+    <h3 class="acces-title">Partager votre avis</h3>
+    <p class="acces-desc">Vous avez fait appel à nos services ? Partagez votre expérience en entrant le code d'accès transmis avec votre facture.</p>
+
+    <!-- ÉTAPE 1 : CODE -->
+    <div class="code-section" id="codeSection">
+      <div class="field">
+        <label>Code d'accès *</label>
+        <input type="text" id="codeInput" placeholder="Entrez votre code client" style="text-transform:uppercase;letter-spacing:3px">
+      </div>
+      <p class="error-msg" id="codeError">Code incorrect. Vérifiez le code sur votre facture.</p>
+      <button class="btn-gold" onclick="verifierCode()">Accéder au formulaire</button>
+    </div>
+
+    <!-- ÉTAPE 2 : FORMULAIRE AVIS -->
+    <form class="form-avis" id="formAvis" onsubmit="publierAvis(event)">
+      <input type="hidden" name="access_key" value="87e4d05b-0d1f-4dd2-acfb-dca689e55c0b">
+      <input type="hidden" name="subject" value="Nouvel avis client — MDM Marbrerie">
+      <input type="hidden" name="from_name" value="Avis Client MDM">
+      <input type="hidden" name="note" id="noteHidden" value="5">
+
+      <div class="field">
+        <label>Votre prénom *</label>
+        <input type="text" name="prenom" id="prenomAvis" required placeholder="Jean">
+      </div>
+      <div class="field">
+        <label>Votre note *</label>
+        <div class="stars-input" id="starsInput">
+          <span onclick="setNote(1)">★</span>
+          <span onclick="setNote(2)">★</span>
+          <span onclick="setNote(3)">★</span>
+          <span onclick="setNote(4)">★</span>
+          <span onclick="setNote(5)" class="active">★</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Votre commentaire *</label>
+        <textarea name="commentaire" id="commentaireAvis" required placeholder="Décrivez votre expérience avec MDM Marbrerie..."></textarea>
+      </div>
+      <div class="field">
+        <label>Photo de la prestation (optionnel)</label>
+        <input type="file" name="photo" accept="image/*" id="photoInput" style="background:white;padding:0.5rem">
+      </div>
+      <button type="submit" class="btn-gold" id="submitAvis">Publier mon avis</button>
+      <div class="success-msg" id="avisSuccess">✓ Merci pour votre avis ! Il sera publié après validation.</div>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">MDM <span>Marbrerie</span> Père et Fils</span>
+  <br>Montgeron — Île-de-France &nbsp;·&nbsp;
+  <a href="tel:0764848544">07 64 84 85 44</a>
+  <br><span style="font-size:0.62rem;opacity:0.35">© 2025 MDM Marbrerie Funéraire Père et Fils</span>
+</footer>
+
+<script>
+// Code secret partagé avec les clients
+var CODE_SECRET = 'MDM2025';
+var noteChoisie = 5;
+
+function verifierCode() {
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if (code === CODE_SECRET) {
+    document.getElementById('codeSection').style.display = 'none';
+    document.getElementById('formAvis').style.display = 'block';
+    document.getElementById('codeError').style.display = 'none';
+  } else {
+    document.getElementById('codeError').style.display = 'block';
+  }
+}
+
+function setNote(n) {
+  noteChoisie = n;
+  document.getElementById('noteHidden').value = n;
+  var stars = document.querySelectorAll('#starsInput span');
+  stars.forEach(function(s, i) {
+    s.classList.toggle('active', i < n);
+  });
+}
+
+// Charger les avis depuis le stockage local (demo) + afficher
+function chargerAvis() {
+  var avis = JSON.parse(localStorage.getItem('mdm_avis') || '[]');
+  var grid = document.getElementById('avisGrid');
+  var noAvis = document.getElementById('noAvis');
+  if (avis.length === 0) {
+    noAvis.style.display = 'block';
+    return;
+  }
+  noAvis.style.display = 'none';
+  avis.forEach(function(a) {
+    var stars = '';
+    for (var i = 1; i <= 5; i++) {
+      stars += '<span class="star' + (i <= a.note ? ' filled' : '') + '">★</span>';
+    }
+    var imgHtml = a.photo ? '<img src="' + a.photo + '" class="avis-img" alt="Photo prestation">' : '<div class="avis-img-placeholder"><svg width="48" height="48" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>';
+    var card = document.createElement('div');
+    card.className = 'avis-card';
+    card.innerHTML = imgHtml + '<div class="avis-body"><div class="avis-stars">' + stars + '</div><p class="avis-texte">"' + a.commentaire + '"</p><p class="avis-auteur">' + a.prenom + '</p><p class="avis-date">' + a.date + '</p></div>';
+    grid.appendChild(card);
+  });
+}
+
+async function publierAvis(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitAvis');
+  btn.textContent = 'Envoi en cours...';
+  btn.disabled = true;
+
+  var prenom = document.getElementById('prenomAvis').value;
+  var commentaire = document.getElementById('commentaireAvis').value;
+  var photoFile = document.getElementById('photoInput').files[0];
+  var date = new Date().toLocaleDateString('fr-FR', {year:'numeric',month:'long',day:'numeric'});
+
+  // Save locally
+  var avis = JSON.parse(localStorage.getItem('mdm_avis') || '[]');
+  var newAvis = {prenom: prenom, commentaire: commentaire, note: noteChoisie, date: date, photo: null};
+
+  if (photoFile) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      newAvis.photo = ev.target.result;
+      avis.push(newAvis);
+      localStorage.setItem('mdm_avis', JSON.stringify(avis));
+    };
+    reader.readAsDataURL(photoFile);
+  } else {
+    avis.push(newAvis);
+    localStorage.setItem('mdm_avis', JSON.stringify(avis));
+  }
+
+  // Send email notification
+  var data = new FormData(e.target);
+  data.append('message', 'Prénom: ' + prenom + '\nNote: ' + noteChoisie + '/5\nCommentaire: ' + commentaire);
+  try {
+    await fetch('https://api.web3forms.com/submit', {method:'POST', body:data});
+  } catch(err) {}
+
+  document.getElementById('avisSuccess').style.display = 'block';
+  e.target.reset();
+  noteChoisie = 5;
+  setNote(5);
+  setTimeout(function() { window.location.reload(); }, 2000);
+}
+
+chargerAvis();
+</script>
+</body>
+</html>
