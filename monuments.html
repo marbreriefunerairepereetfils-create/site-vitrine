@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos Monuments — MDM Marbrerie Funéraire Père et Fils</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#c9a84c;--gold-light:#e8c96a;--dark:#1a1a1a;--stone:#f2f2f0;--stone2:#e0e0dc;--text:#1e1e1e;--muted:#5a5a5a;--border:#d4d0c8}
+html{scroll-behavior:smooth}
+body{font-family:'Raleway',sans-serif;font-weight:300;background:var(--stone);color:var(--text)}
+nav{position:sticky;top:0;z-index:200;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem}
+.logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;letter-spacing:3px;color:var(--dark);text-decoration:none;text-transform:uppercase}
+.logo span{color:var(--gold)}
+.nav-tel{font-size:0.8rem;color:var(--gold);text-decoration:none}
+.hero-sub{background:var(--dark);padding:3rem 2rem;text-align:center;color:white}
+.hero-sub p{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem}
+.hero-sub h1{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:300;font-style:italic}
+.cat-nav{background:white;border-bottom:1px solid var(--border);padding:0 1rem;display:flex;gap:0;overflow-x:auto;position:sticky;top:57px;z-index:90;scrollbar-width:none}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-nav a{display:block;padding:1rem 1rem;font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0}
+.cat-nav a:hover,.cat-nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+.catalogue-section{padding:3rem 2rem;max-width:1200px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:2.5rem}
+.section-label{font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem}
+.section-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;font-style:italic}
+.section-desc{font-size:0.85rem;color:var(--muted);margin-top:0.8rem;max-width:500px;margin-left:auto;margin-right:auto}
+/* SUB TABS pour confessions */
+.sub-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
+.sub-tab{padding:0.5rem 1.2rem;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;border:1px solid var(--border);background:white;color:var(--muted);cursor:pointer;transition:all .2s}
+.sub-tab.active,.sub-tab:hover{background:var(--gold);color:white;border-color:var(--gold)}
+.sub-content{display:none}
+.sub-content.active{display:block}
+/* GRID */
+.monuments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+.monument-card{background:white;border:1px solid var(--border);overflow:hidden;transition:transform .2s,box-shadow .2s}
+.monument-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.08)}
+.card-img{background:#f0ede8;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-no-img{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);width:100%;height:100%}
+.card-no-img svg{width:40px;height:40px;stroke:var(--border);fill:none;stroke-width:1;margin-bottom:0.5rem}
+.card-no-img span{font-size:0.65rem;letter-spacing:1px;text-transform:uppercase}
+.card-body{padding:1.1rem}
+.card-ref{font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem}
+.card-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;margin-bottom:0.3rem;line-height:1.3}
+.card-granite{font-size:0.75rem;color:var(--muted)}
+.card-btn{display:block;width:100%;margin-top:0.9rem;padding:0.65rem;background:var(--dark);color:white;border:none;font-family:'Raleway',sans-serif;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;text-decoration:none;text-align:center}
+.card-btn:hover{background:var(--gold)}
+.section-divider{height:1px;background:var(--border);margin:0 2rem}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;padding:1rem;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:white;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:2rem;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);line-height:1}
+.modal-label{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:300;margin-bottom:0.3rem}
+.modal-monument{font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.field{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.9rem}
+.field label{font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;padding:0.7rem 0.9rem;border:1px solid var(--border);background:var(--stone);font-family:'Raleway',sans-serif;font-size:0.85rem;color:var(--text);outline:none;-webkit-appearance:none;border-radius:0}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);background:white}
+.field textarea{min-height:75px;resize:vertical}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem}
+.btn-submit{width:100%;padding:0.85rem;background:var(--dark);color:white;border:none;font-family:'Raleway',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:0.5rem}
+.btn-submit:hover{background:var(--gold)}
+.btn-submit:disabled{background:var(--muted);cursor:not-allowed}
+.success-msg{display:none;background:#f0f5f0;border:1px solid #bdd4bd;color:#3a5a3a;padding:1rem;font-size:0.82rem;margin-top:1rem;text-align:center}
+.modal-note{font-size:0.68rem;color:var(--muted);text-align:center;margin-top:0.6rem}
+footer{background:var(--dark);color:rgba(255,255,255,0.4);padding:2.5rem 2rem;text-align:center;font-size:0.75rem;letter-spacing:1px;line-height:2}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:white;letter-spacing:4px;display:block;margin-bottom:0.5rem}
+.footer-logo span{color:var(--gold-light)}
+footer a{color:var(--gold-light);text-decoration:none}
+.nav-tel{border:1px solid rgba(201,168,76,0.4);padding:0.4rem 1rem}
+@media(min-width:769px){.nav-link-desk{display:inline !important}}
+@media(max-width:768px){
+  .field-row{grid-template-columns:1fr}
+  .monuments-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-nav{top:52px}
+  .modal{padding:1.5rem}
+}
+@media(max-width:480px){.monuments-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">MDM <span>Marbrerie</span></a>
+  <div style="display:flex;align-items:center;gap:1.5rem">
+    <a href="index.html#services" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;display:none" class="nav-link-desk">Services</a>
+    <a href="avis.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;display:none" class="nav-link-desk">Avis clients</a>
+    <a href="tel:0764848544" class="nav-tel">07 64 84 85 44</a>
+  </div>
+</nav>
+
+<div class="hero-sub">
+  <p>MDM Marbrerie Funéraire Père et Fils</p>
+  <h1>Notre catalogue de monuments</h1>
+</div>
+
+<div class="cat-nav" id="catNav">
+  <a href="#classiques">Classiques</a>
+  <a href="#ouvrages">Ouvragés</a>
+  <a href="#plats">Plats</a>
+  <a href="#creation">Création</a>
+  <a href="#import">Import</a>
+  <a href="#chapelles">Chapelles</a>
+  <a href="#mixtes">Mixtes</a>
+  <a href="#doubles">Doubles</a>
+  <a href="#cineraires">Cinéraires</a>
+  <a href="#religieux">Confessions religieuses</a>
+</div>
+
+
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 2. OUVRAGES ========== -->
+<div id="ouvrages" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments classiques ouvragés</h2>
+    <p class="section-desc">Stèles posées sur socle — travail d'exception</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-002.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D110</p><p class="card-name">Stèle 600 + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-008.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. E46</p><p class="card-name">Stèle D125 + semelle</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-014.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D35</p><p class="card-name">Stèle D35 motif LP0803 + semelle</p><p class="card-granite">Granit : Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-021.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. E42</p><p class="card-name">Stèle D114 motif D114 + semelle</p><p class="card-granite">Granit : Bois de Rose</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-025.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D3</p><p class="card-name">Stèle D95 + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-040.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B224</p><p class="card-name">Stèle D114 motif LM025 + semelle</p><p class="card-granite">Granit : Labrador Bleu HQ</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="ouvrages-042.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D42</p><p class="card-name">Stèle B101 + semelle</p><p class="card-granite">Granit : Tarn Moyen</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 3. PLATS ========== -->
+<div id="plats" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments plats</h2>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="plats-001.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Soubassement mouluré</p><p class="card-name">Tombale croix relief à gorge</p><p class="card-granite">Granit : Vert Olive</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-008.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C1</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Noir Rustenburg</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C2</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-018.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C6</p><p class="card-name">Arrondi sur avant + semelle</p><p class="card-granite">Granit : Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-020.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C3</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-028.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C7</p><p class="card-name">Arrondi et queues de billard + semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-030.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C8</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Bohus Rouge</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-033.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C16</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-036.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C5</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="plats-045.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Dalle avant arrondi</p><p class="card-name">Dalle avant arrondi + semelle</p><p class="card-granite">Granit : Vert Olive</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-001.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Dalle + coffret</p><p class="card-name">Dalle + coffret + semelle</p><p class="card-granite">Granit : Kinawa Rosé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 4. CREATION ========== -->
+<div id="creation" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments création</h2>
+    <p class="section-desc">Des formes uniques et contemporaines pour un hommage singulier</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="creation-007.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B55</p><p class="card-name">Stèle B101 motif + semelle</p><p class="card-granite">Granit : Lanhélin + Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST01</p><p class="card-name">Stèle ST01 motif ST01 + semelle</p><p class="card-granite">Granit : Lilas Gérais</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-017.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST02</p><p class="card-name">Stèle ST02 motif ST02 + semelle</p><p class="card-granite">Granit : Noir Rustenburg</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-022.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST06</p><p class="card-name">Stèle ST06 motif LM038 + semelle</p><p class="card-granite">Granit : Huelgoat + Rustenburg</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-030.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. E42</p><p class="card-name">Stèle D500 + semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-032.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F85</p><p class="card-name">Stèle F85 + semelle</p><p class="card-granite">Granit : Rose Dalva</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-039.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B53</p><p class="card-name">Stèle B53 motif STF08</p><p class="card-granite">Granit : Mondariz</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-041.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST09</p><p class="card-name">Stèle F142 + semelle</p><p class="card-granite">Granit : Huelgoat + Rustenburg</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-049.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F300</p><p class="card-name">Stèle B101 motif ST025 + semelle</p><p class="card-granite">Granit : Bararp</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-051.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST012</p><p class="card-name">Stèle ST012 motif ST036 + semelle</p><p class="card-granite">Granit : New Mahogany</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-058.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B55</p><p class="card-name">Stèle B550 + semelle</p><p class="card-granite">Granit : Bois de Rose</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-060.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST04</p><p class="card-name">Stèle ST04 motif ST04 + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-067.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST03</p><p class="card-name">Stèle ST03 motif ST03 + semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-069.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B53</p><p class="card-name">Stèle D114 motif ST038 + semelle</p><p class="card-granite">Granit : New Mahogany</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-074.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. A812</p><p class="card-name">Stèle D158 motif D158</p><p class="card-granite">Granit : Vert Olive</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-080.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST014</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Lanhélin + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-085.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST08</p><p class="card-name">Stèle F300 motif ST08 + semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-088.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B55</p><p class="card-name">Stèle STB101 + semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-095.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B53</p><p class="card-name">Stèle F181 motif ST046 + semelle</p><p class="card-granite">Granit : Vert Olive</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-097.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST016</p><p class="card-name">Stèle ST016 motif LM019 2SW + semelle</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-104.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST015</p><p class="card-name">Stèle ST015 motif LM015 + semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-107.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. A803</p><p class="card-name">Stèle STB651 motif ST047 + semelle</p><p class="card-granite">Granit : Vert Olive</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-114.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F117</p><p class="card-name">Stèle F117 motif F117 + semelle</p><p class="card-granite">Granit : Bararp</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="creation-116.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F131</p><p class="card-name">Stèle STF131 + semelle</p><p class="card-granite">Granit : Bararp</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-005.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST017</p><p class="card-name">Stèle ST017 + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 5. IMPORT ========== -->
+<div id="import" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments import</h2>
+    <p class="section-desc">Modèles originaux, formes contemporaines et sculpturales</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="import-012.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD802</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Vert Pradesh + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-016.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B101</p><p class="card-name">Stèle ST016 motif ST050 + semelle</p><p class="card-granite">Granit : Twilight Red</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-025.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B29</p><p class="card-name">Stèle B29 + semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-027.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B100</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-036.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. C22</p><p class="card-name">4 pièces + semelle</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-038.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD105</p><p class="card-name">Modèle OD105</p><p class="card-granite">Granit : Vert Pradesh</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-048.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD108</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya + Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-050.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD109</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-059.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD110</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Blanc Viscont</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-062.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD807</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Paradiso + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-072.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD202</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-075.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD806</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-085.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD809</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Vert Pradesh + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-088.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD810</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Bleu Azur + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-098.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD811</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-100.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD816</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Blanc Viscont + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-110.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD112</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="import-112.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. OD817</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Vert Pradesh + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-003.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. E45</p><p class="card-name">Stèle B651 + semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 6. CHAPELLES ========== -->
+<div id="chapelles" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Chapelles</h2>
+    <p class="section-desc">Monuments d'exception pour des sépultures remarquables</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="chapelles-008.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Chapelle ouverte</p><p class="card-name">Chapelle ouverte</p><p class="card-granite">Granit : Himalaya + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-010.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D300</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. ST019</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-016.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F100</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Rose Clarté + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-019.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F113</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Noir Rustenburg</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="chapelles-021.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F66</p><p class="card-name">Motif F66 + semelle</p><p class="card-granite">Granit : Labrador Bleu HQ</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="mixtes-003.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F103</p><p class="card-name">Motif F103 + semelle</p><p class="card-granite">Granit : Bararp</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 7. MIXTES ========== -->
+<div id="mixtes" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments mixtes</h2>
+    <p class="section-desc">Alliance de matières et de styles pour une sépulture unique</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="mixtes-008.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F46</p><p class="card-name">Stèle F142D + semelle</p><p class="card-granite">Granit : Huelgoat + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="mixtes-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. F68</p><p class="card-name">Motif ST029 et ST038</p><p class="card-granite">Granit : Tarn Foncé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-002.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B14</p><p class="card-name">Modèle B14</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 8. DOUBLES ========== -->
+<div id="doubles" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments doubles</h2>
+    <p class="section-desc">Conçus pour accueillir deux concessions côte à côte</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="doubles-009.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G8</p><p class="card-name">Stèle 619 motif épis et croix + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G1</p><p class="card-name">Modèle G1</p><p class="card-granite">Granit : Bohus Rouge</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-017.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G3</p><p class="card-name">Modèle G3</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-020.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G4</p><p class="card-name">Tombale bombée + semelle</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-027.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G38</p><p class="card-name">Modèle G38</p><p class="card-granite">Granit : Tarn Foncé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-029.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G8</p><p class="card-name">Stèle 102 + semelle</p><p class="card-granite">Granit : Tarn Foncé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-036.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G37</p><p class="card-name">Stèle G40 motif G40</p><p class="card-granite">Granit : Rose Dalva + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="doubles-038.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G25</p><p class="card-name">Stèle 200</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-001.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. G108</p><p class="card-name">+ semelle</p><p class="card-granite">Granit : Labrador Bleu HQ</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 9. CINERAIRES ========== -->
+<div id="cineraires" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Monuments cinéraires</h2>
+    <p class="section-desc">Monuments adaptés aux sépultures cinéraires et aux cendres</p>
+  </div>
+  <div class="monuments-grid">
+    <div class="monument-card"><div class="card-img"><img src="cineraires-009.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN30</p><p class="card-name">Motif LP151 2CR + semelle monolithe</p><p class="card-granite">Granit : Vert Olive + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-011.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. Dalle</p><p class="card-name">Dalle cinéraire</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-021.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN8</p><p class="card-name">Modèle CIN8</p><p class="card-granite">Granit : Tarn Foncé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-023.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN31</p><p class="card-name">Jardinet</p><p class="card-granite">Granit : Lanhélin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-029.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN32</p><p class="card-name">Modèle CIN32</p><p class="card-granite">Granit : Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-031.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN01</p><p class="card-name">Modèle CIN01</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-040.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN04</p><p class="card-name">Modèle CIN04</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-044.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN23</p><p class="card-name">Modèle CIN23</p><p class="card-granite">Granit : Bois de Rose</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-048.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN02</p><p class="card-name">Modèle CIN02</p><p class="card-granite">Granit : Blanc Viscont</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-051.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN17</p><p class="card-name">Modèle CIN17</p><p class="card-granite">Granit : Huelgoat + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-061.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN19</p><p class="card-name">Modèle CIN19</p><p class="card-granite">Granit : Bararp</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-065.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN25</p><p class="card-name">Motif F129</p><p class="card-granite">Granit : Lilas Gérais + Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-072.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN29</p><p class="card-name">Motif D124</p><p class="card-granite">Granit : Shangrila</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-074.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN28</p><p class="card-name">Motif ST048</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-080.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN9</p><p class="card-name">Modèle CIN9</p><p class="card-granite">Granit : Tarn Foncé</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-086.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN OD802</p><p class="card-name">Modèle CIN OD802</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-093.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN05</p><p class="card-name">Modèle CIN05</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="cineraires-095.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN33</p><p class="card-name">Motif MMa3 + rose CR</p><p class="card-granite">Granit : Himalaya</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    <div class="monument-card"><div class="card-img"><img src="religieux-002.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. CIN34</p><p class="card-name">Modèle CIN34</p><p class="card-granite">Granit : Bleu Azur</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== 10. CONFESSIONS RELIGIEUSES ========== -->
+<div id="religieux" class="catalogue-section">
+  <div class="section-header">
+    <p class="section-label">Catalogue</p>
+    <h2 class="section-title">Confessions religieuses</h2>
+    <p class="section-desc">Monuments adaptés à chaque tradition religieuse et culturelle</p>
+  </div>
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showTab('musulman', this)">Monuments musulmans</button>
+    <button class="sub-tab" onclick="showTab('israelite', this)">Monuments israélites</button>
+    <button class="sub-tab" onclick="showTab('chretien', this)">Monuments chrétiens</button>
+    <button class="sub-tab" onclick="showTab('autre', this)">Autres confessions</button>
+  </div>
+
+  <div id="tab-musulman" class="sub-content active">
+    <div class="monuments-grid">
+      <div class="monument-card"><div class="card-img"><img src="religieux-008.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. A2</p><p class="card-name">Stèle Musulmane</p><p class="card-granite">Granit : Huelgoat</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+      <div class="monument-card"><div class="card-img"><img src="religieux-010.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D3</p><p class="card-name">Stèle Pagode</p><p class="card-granite">Granit : Rose Automne</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    </div>
+  </div>
+
+  <div id="tab-israelite" class="sub-content">
+    <div class="monuments-grid">
+      <div class="monument-card"><div class="card-img"><img src="religieux-017.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. E1</p><p class="card-name">Stèle Table de la Loi + semelle</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    </div>
+  </div>
+
+  <div id="tab-chretien" class="sub-content">
+    <div class="monuments-grid">
+      <div class="monument-card"><div class="card-img"><img src="religieux-020.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Création</p><p class="card-name">Création avec croix celtique</p><p class="card-granite">Granit : Labrador Bleu HQ + Noir Fin</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+      <div class="monument-card"><div class="card-img"><img src="religieux-028.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. A3</p><p class="card-name">Stèle A7 + semelle (avec croix)</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+      <div class="monument-card"><div class="card-img"><img src="religieux-030.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. B22</p><p class="card-name">Croix en élévation + semelle</p><p class="card-granite">Granit : Labrador Bleu HQ</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+      <div class="monument-card"><div class="card-img"><img src="religieux-028.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D3</p><p class="card-name">Stèle D6 + semelle (avec croix)</p><p class="card-granite">Granit : Rose Clarté</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    </div>
+  </div>
+
+  <div id="tab-autre" class="sub-content">
+    <div class="monuments-grid">
+      <div class="monument-card"><div class="card-img"><img src="religieux-030.jpg" alt="Monument" style="width:100%;height:100%;object-fit:contain;padding:0.5rem"></div><div class="card-body"><p class="card-ref">Réf. D3 Pagode</p><p class="card-name">Stèle Pagode</p><p class="card-granite">Granit : Rose Automne</p><a onclick="demanderDevis(''); return false;" href="#contact" class="card-btn">Demander un devis</a></div></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="contact" style="background:white;padding:3rem 2rem;max-width:600px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:2rem">
+    <p style="font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;color:#8c7248;margin-bottom:0.8rem">Nous contacter</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;font-style:italic" id="formTitle">Demande de devis</h2>
+    <p id="formMonumentDisplay" style="font-size:0.85rem;color:#7a736a;margin-top:0.5rem"></p>
+  </div>
+  <form id="devisForm" onsubmit="sendDevis(event)">
+    <input type="hidden" name="access_key" value="87e4d05b-0d1f-4dd2-acfb-dca689e55c0b">
+    <input type="hidden" name="from_name" value="Site MDM Marbrerie — Catalogue">
+    <input type="hidden" name="subject" id="formSubject" value="Demande de devis monument">
+    <input type="hidden" name="monument_choisi" id="formMonument" value="">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div>
+        <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">Prénom *</label>
+        <input type="text" name="prenom" required placeholder="Jean" style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none">
+      </div>
+      <div>
+        <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">Nom *</label>
+        <input type="text" name="nom" required placeholder="Dupont" style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none">
+      </div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">Téléphone *</label>
+      <input type="tel" name="telephone" required placeholder="06 00 00 00 00" style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none">
+    </div>
+    <div style="margin-bottom:1rem">
+      <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">E-mail *</label>
+      <input type="email" name="email" required placeholder="votre@email.fr" style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none">
+    </div>
+    <div style="margin-bottom:1rem">
+      <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">Votre statut *</label>
+      <select name="statut" required style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none;-webkit-appearance:none">
+        <option value="">— Sélectionner —</option>
+        <option>Concessionnaire de la sépulture</option>
+        <option>Ayant droit</option>
+        <option>Aucun des deux</option>
+      </select>
+    </div>
+    <div style="margin-bottom:1.5rem">
+      <label style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#7a736a;display:block;margin-bottom:0.3rem">Message</label>
+      <textarea name="message" placeholder="Cimetière concerné, précisions..." style="width:100%;padding:0.75rem;border:1px solid #d8d0c4;background:#f4f1ec;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none;min-height:80px;resize:vertical"></textarea>
+    </div>
+    <button type="submit" id="submitBtn" style="width:100%;padding:1rem;background:#141414;color:white;border:none;font-family:'Raleway',sans-serif;font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer">ENVOYER MA DEMANDE</button>
+    <p style="font-size:0.68rem;color:#7a736a;text-align:center;margin-top:0.6rem">Informations traitées de manière strictement confidentielle</p>
+    <div id="successMsg" style="display:none;background:#f0f5f0;border:1px solid #bdd4bd;color:#3a5a3a;padding:1rem;font-size:0.85rem;margin-top:1rem;text-align:center">
+      ✓ &nbsp;Votre demande a bien été envoyée. Nous vous contacterons rapidement.
+    </div>
+  </form>
+</div>
+<footer>
+  <span class="footer-logo">MDM <span>Marbrerie</span> Père et Fils</span>
+  Montgeron — Île-de-France &nbsp;|&nbsp;
+  <a href="tel:0764848544">07 64 84 85 44</a> &nbsp;|&nbsp;
+  <a href="/cdn-cgi/l/email-protection#563b3724342433243f333023383324373f2433263324333322303f3a2516313b373f3a7835393b"><span class="__cf_email__" data-cfemail="4e232f3c2c3c2b3c272b283b202b3c2f273c2b3e2b3c2b2b3a2827223d0e29232f2722602d2123">[email&#160;protected]</span></a><br>
+  <br><span style="font-size:0.65rem;opacity:0.4">© 2025 MDM Marbrerie Funéraire Père et Fils — Tous droits réservés</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showTab(tabId, btn) {
+  document.querySelectorAll('.sub-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sub-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+// Active nav on scroll
+var sections = document.querySelectorAll('[id]');
+var navLinks = document.querySelectorAll('.cat-nav a');
+window.addEventListener('scroll', function() {
+  var pos = window.s
